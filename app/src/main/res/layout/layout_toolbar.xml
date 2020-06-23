@@ -1,0 +1,63 @@
+<layout>
+
+    <data>
+        <variable
+            name="bindedData"
+            type="com.roro.cms.ui.MeetingsViewModel" />
+    </data>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@color/green"
+    tools:context=".ui.MainActivity">
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_16"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        android:text="@{bindedData.date}"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvPrev"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@{bindedData.leftText}"
+        android:gravity="center"
+        android:textAllCaps="true"
+        android:drawableStart="@drawable/back"
+        android:textSize="@dimen/sp_16"
+        android:textStyle="bold"
+        android:visibility="@{bindedData.leftVisibility}"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvNext"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/next"
+        android:gravity="center"
+        android:visibility="@{bindedData.rightVisibility}"
+        android:drawableEnd="@drawable/next"
+        android:textSize="@dimen/sp_16"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

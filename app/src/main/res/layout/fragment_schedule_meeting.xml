@@ -1,0 +1,90 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/dp_12"
+        tools:context=".ui.ScheduleMeetingFragment">
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:background="@drawable/bg_gray_rounded_corner"
+            android:hint="@string/meeting_date"
+            android:padding="@dimen/dp_8"
+            android:textSize="@dimen/sp_18"
+            android:drawableEnd="@drawable/down_arrow"
+            app:layout_constraintBottom_toTopOf="@+id/tvStartTime"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvStartTime"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:background="@drawable/bg_gray_rounded_corner"
+            android:drawableEnd="@drawable/down_arrow"
+
+            android:hint="@string/start_time"
+            android:padding="@dimen/dp_8"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_18"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvDate" />
+
+        <TextView
+            android:id="@+id/tvEndTime"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:background="@drawable/bg_gray_rounded_corner"
+            android:hint="@string/end_time"
+            android:padding="@dimen/dp_8"
+            android:textSize="@dimen/sp_18"
+            android:drawableEnd="@drawable/down_arrow"
+            android:layout_marginTop="@dimen/dp_18"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvStartTime" />
+
+        <EditText
+            android:id="@+id/etDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner_grey_outline"
+            android:hint="@string/description"
+            android:inputType="textMultiLine"
+            android:lines="4"
+            android:padding="@dimen/dp_8"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_18"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvEndTime" />
+
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/dp_8"
+            android:background="@drawable/bg_green_rounded_corner"
+            android:padding="@dimen/dp_8"
+            android:text="@string/submit"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etDescription" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
