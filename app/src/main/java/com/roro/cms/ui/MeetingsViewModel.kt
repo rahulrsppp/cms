@@ -2,9 +2,7 @@ package com.roro.cms.ui
 
 import android.view.View
 import androidx.lifecycle.*
-import com.roro.cms.MeetingRepository
-import com.roro.cms.getDesiredDateFormat
-import com.roro.cms.getDesiredTimeFormat
+import com.roro.cms.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
@@ -13,10 +11,10 @@ class MeetingsViewModel internal constructor(
 ) : ViewModel() {
 
 
-    private val _meetingData = MutableLiveData<List<MeetingDataModel>>()
-    val meetingData :LiveData<List<MeetingDataModel>> = _meetingData
+    private val _meetingData = MutableLiveData<Event<List<MeetingDataModel>>>()
+    val meetingData :LiveData<Event<List<MeetingDataModel>>> = _meetingData
 
-        private val _spinner = MutableLiveData<Boolean>(false)
+    private val _spinner = MutableLiveData<Boolean>(false)
     val spinner: LiveData<Boolean>
         get() = _spinner
 
@@ -40,13 +38,35 @@ class MeetingsViewModel internal constructor(
     val leftText: LiveData<String>
         get() = _leftText
 
+    private val meetingList = mutableListOf<MeetingDataModel>()
 
+    fun getMeetingData(date: String, forSchedulingData :Boolean =false) {
 
-    fun getMeetingData(date: String) {
-        _date.value = date.getDesiredDateFormat()
+        if(!forSchedulingData)
+            _date.value = date.getDesiredDateFormat()
+        fetchMeetingData(date)
+
+    }
+
+    private fun fetchMeetingData(date: String) {
         launchDataLoad {
-            _meetingData.value =  meetingRepo.fetchAllMeetingsForSpecificDate(date)
+            val fetchedData =meetingRepo.fetchAllMeetingsForSpecificDate(date)
+            _meetingData.value = Event(fetchedData)
+            meetingList.clear()
+            meetingList.addAll(fetchedData)
         }
+    }
+
+
+    fun isSlotAvailable(sTime: String, eTime: String) :Boolean {
+        var slotAvailable = false
+
+        for (data in meetingList){
+            if(compareTime(data.start_time,data.end_time,sTime,eTime,true)==1){
+                slotAvailable =true
+            }
+        }
+        return   slotAvailable
     }
 
     private fun launchDataLoad(block: suspend () -> Unit): Job {

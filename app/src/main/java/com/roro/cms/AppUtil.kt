@@ -3,7 +3,6 @@ package com.roro.cms
 import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
 import java.util.*
 
 
@@ -58,7 +57,7 @@ fun String.getNextPreviousDate(nextOrPrevious : Int) :String{
 fun compareTwoDates(dateFromCompare: String, dateFormat: String= "dd/MM/yyyy") : Int{
 
     val sdf = SimpleDateFormat(dateFormat, Locale.getDefault())
-   val currentDate =  sdf.format(Date())
+    val currentDate =  sdf.format(Date())
     var dTo: Date? = null
     var dFrom: Date? = null
     try {
@@ -79,3 +78,31 @@ fun compareTwoDates(dateFromCompare: String, dateFormat: String= "dd/MM/yyyy") :
     }
     return 2
 }
+
+
+fun compareTime(sStartTime: String ="", sEndTime: String="", sTime: String, eTime: String, isSpecialCase : Boolean =false) : Int{
+    val timeSdf = SimpleDateFormat("HH:mm", Locale.getDefault())
+    val startTime: Date? = timeSdf.parse(sTime)
+    val endTime: Date? = timeSdf.parse(eTime)
+
+    try {
+        if(isSpecialCase) {
+            val serverStartTime: Date? = timeSdf.parse(sStartTime)
+            val serverEndTime: Date? = timeSdf.parse(sEndTime)
+
+            if ((startTime!!.equals(serverStartTime) || startTime.after(serverStartTime)) && startTime.before(serverEndTime)){
+                if((endTime!!.after(serverStartTime) &&  (endTime.before(serverEndTime) || endTime.equals(serverEndTime)))) {
+                    return 1
+                }
+            }
+        }else{
+            if(endTime!!.after(startTime)){
+                return 1
+            }
+        }
+    } catch (e: ParseException) {
+        e.printStackTrace()
+    }
+    return 2
+}
+

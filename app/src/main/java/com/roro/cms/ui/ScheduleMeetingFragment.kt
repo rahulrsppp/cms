@@ -12,8 +12,10 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import com.roro.cms.MeetingRepository
 import com.roro.cms.R
+import com.roro.cms.compareTime
 import com.roro.cms.compareTwoDates
 import com.roro.cms.databinding.FragmentScheduleMeetingBinding
 import com.roro.cms.webservice.NetworkResource
@@ -45,7 +47,25 @@ class ScheduleMeetingFragment : Fragment(), View.OnClickListener {
         bindingUtil.tvStartTime.setOnClickListener(this)
         bindingUtil.tvEndTime.setOnClickListener(this)
         bindingUtil.btnSubmit.setOnClickListener(this)
+
+        setObserver()
         return bindingUtil.root
+    }
+
+    private fun setObserver() {
+        viewModel.meetingData.observe(viewLifecycleOwner, Observer {
+            it.getData()?.let {
+
+                val sTime = bindingUtil.tvStartTime.text.toString();
+                val eTime = bindingUtil.tvEndTime.text.toString();
+              if(viewModel.isSlotAvailable(sTime,eTime)){
+                  Toast.makeText(requireContext(), "Slot Available.", Toast.LENGTH_SHORT).show()
+
+              }else{
+                  Toast.makeText(requireContext(), "Slot Not Available.", Toast.LENGTH_SHORT).show()
+              }
+            }
+        })
     }
 
     override fun onResume() {
@@ -123,15 +143,7 @@ class ScheduleMeetingFragment : Fragment(), View.OnClickListener {
 
             R.id.btnSubmit -> {
                 if(validate()) {
-                    if (count / 2 == 0) {
-                        Toast.makeText(requireContext(), "Slot Available", Toast.LENGTH_SHORT)
-                            .show()
-                    } else {
-                        Toast.makeText(requireContext(), "Slot Not Available", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                    count++;
-                    initializeView()
+                  viewModel.getMeetingData(bindingUtil.tvDate.text.toString(), true)
                 }
             }
         }
@@ -148,6 +160,10 @@ class ScheduleMeetingFragment : Fragment(), View.OnClickListener {
         }
         else if(bindingUtil.tvEndTime.text.length==0) {
             Toast.makeText(requireContext(), "Select End Time", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        else if(compareTime(eTime = bindingUtil.tvEndTime.text.toString(), sTime = bindingUtil.tvStartTime.text.toString())==2) {
+            Toast.makeText(requireContext(), "End time should not be lesser than end time.", Toast.LENGTH_SHORT).show()
             return false
         }
         return true

@@ -73,7 +73,7 @@ class MeetingsFragment : Fragment(), View.OnClickListener {
 
     private fun setObserver() {
         viewModel.meetingData.observe(viewLifecycleOwner, Observer {
-            it?.let {
+            it.getData()?.let {
                 items.clear()
                 items.addAll(it)
                 meetingAdapter.notifyDataSetChanged()
